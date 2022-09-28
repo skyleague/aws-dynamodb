@@ -75,7 +75,7 @@ resource "aws_dynamodb_table" "this" {
   }
 
   dynamic "replica" {
-    for_each = var.replica_settings.externally_managed ? {} : var.replica_settings.regions
+    for_each = var.replica_settings
     content {
       region_name            = replica.key
       kms_key_arn            = replica.value.kms_key_arn
