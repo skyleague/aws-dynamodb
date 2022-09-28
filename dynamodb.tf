@@ -30,26 +30,26 @@ resource "aws_dynamodb_table" "this" {
   dynamic "global_secondary_index" {
     for_each = var.global_secondary_indexes
     content {
-      name = each.key
+      name = global_secondary_index.key
 
-      hash_key  = each.value.hash_key.name
-      range_key = try(each.value.range_key.name, null)
+      hash_key  = global_secondary_index.value.hash_key.name
+      range_key = try(global_secondary_index.value.range_key.name, null)
 
-      projection_type    = each.value.projection_type
-      non_key_attributes = each.value.non_key_attributes
+      projection_type    = global_secondary_index.value.projection_type
+      non_key_attributes = global_secondary_index.value.non_key_attributes
 
-      read_capacity  = var.provisioned_capacity.enabled ? coalesce(try(each.value.provisioned_capacity.read, null), var.provisioned_capacity.read) : null
-      write_capacity = var.provisioned_capacity.enabled ? coalesce(try(each.value.provisioned_capacity.write, null), var.provisioned_capacity.write) : null
+      read_capacity  = var.provisioned_capacity.enabled ? coalesce(try(global_secondary_index.value.provisioned_capacity.read, null), var.provisioned_capacity.read) : null
+      write_capacity = var.provisioned_capacity.enabled ? coalesce(try(global_secondary_index.value.provisioned_capacity.write, null), var.provisioned_capacity.write) : null
     }
   }
 
   dynamic "local_secondary_index" {
     for_each = var.local_secondary_indexes
     content {
-      name               = each.key
-      range_key          = each.value.range_key.name
-      non_key_attributes = each.value.non_key_attributes
-      projection_type    = each.value.projection_type
+      name               = local_secondary_index.key
+      range_key          = local_secondary_index.value.range_key.name
+      non_key_attributes = local_secondary_index.value.non_key_attributes
+      projection_type    = local_secondary_index.value.projection_type
     }
   }
 
@@ -57,8 +57,8 @@ resource "aws_dynamodb_table" "this" {
   dynamic "attribute" {
     for_each = local.attributes
     content {
-      name = each.key
-      type = each.value
+      name = attribute.key
+      type = attribute.value
     }
   }
 
@@ -77,10 +77,10 @@ resource "aws_dynamodb_table" "this" {
   dynamic "replica" {
     for_each = var.replica_settings.externally_managed ? {} : var.replica_settings.regions
     content {
-      region_name            = each.key
-      kms_key_arn            = each.value.kms_key_arn
-      point_in_time_recovery = each.value.point_in_time_recovery
-      propagate_tags         = each.value.propagate_tags
+      region_name            = replica.key
+      kms_key_arn            = replica.value.kms_key_arn
+      point_in_time_recovery = replica.value.point_in_time_recovery
+      propagate_tags         = replica.value.propagate_tags
     }
   }
 
