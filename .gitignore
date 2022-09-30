@@ -7,6 +7,7 @@ src/**/*.d.ts
 !.github
 !.vscode
 !.npmrc
+!.tfsec
 
 !.gitignore
 !.gitkeep
