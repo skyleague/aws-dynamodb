@@ -87,6 +87,8 @@ resource "aws_dynamodb_table" "this" {
   stream_enabled   = var.stream_settings.enabled && var.stream_settings.kinesis == null ? true : false
   stream_view_type = var.stream_settings.enabled && var.stream_settings.kinesis == null ? var.stream_settings.view_type : null
 
+  tags = var.tags
+
   lifecycle {
     prevent_destroy = true
   }
