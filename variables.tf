@@ -105,3 +105,9 @@ variable "replica_settings" {
   }))
   default = {}
 }
+
+variable "tags" {
+  description = "Resource tags for the table"
+  type = map(string)
+  default = null
+}
