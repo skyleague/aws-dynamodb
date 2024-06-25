@@ -2,6 +2,7 @@ variable "name" {
   description = "Name of the DynamoDB Table"
   type        = string
 }
+
 variable "hash_key" {
   description = "Hash key configuration."
   type = object({
@@ -9,6 +10,7 @@ variable "hash_key" {
     type = optional(string, "S")
   })
 }
+
 variable "range_key" {
   description = "Range key configuration"
   type = object({
@@ -68,6 +70,12 @@ variable "local_secondary_indexes" {
   default = {}
 }
 
+variable "deletion_protection_enabled" {
+  description = "Enable deletion protection"
+  type        = bool
+  default     = true
+}
+
 variable "point_in_time_recovery_enabled" {
   description = "Enable point-in-time recovery (recommended)"
   type        = bool
@@ -110,4 +118,10 @@ variable "tags" {
   description = "Resource tags for the table"
   type        = map(string)
   default     = null
+}
+
+variable "output_policies" {
+  description = "Generate default set of policies for the table"
+  type        = bool
+  default     = false
 }
