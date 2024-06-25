@@ -19,6 +19,8 @@ resource "aws_dynamodb_table" "this" {
   hash_key  = var.hash_key.name
   range_key = try(var.range_key.name, null)
 
+  deletion_protection_enabled = var.deletion_protection_enabled
+
   dynamic "ttl" {
     for_each = var.ttl_attribute != null ? [var.ttl_attribute] : []
     content {
@@ -88,10 +90,6 @@ resource "aws_dynamodb_table" "this" {
   stream_view_type = var.stream_settings.enabled && var.stream_settings.kinesis == null ? var.stream_settings.view_type : null
 
   tags = var.tags
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "aws_dynamodb_kinesis_streaming_destination" "this" {

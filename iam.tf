@@ -1,4 +1,5 @@
 data "aws_iam_policy_document" "read" {
+  count = var.output_policies ? 1 : 0
   statement {
     effect = "Allow"
     resources = [
@@ -15,6 +16,7 @@ data "aws_iam_policy_document" "read" {
 }
 
 data "aws_iam_policy_document" "scan" {
+  count = var.output_policies ? 1 : 0
   statement {
     effect = "Allow"
     resources = [
@@ -28,6 +30,7 @@ data "aws_iam_policy_document" "scan" {
 }
 
 data "aws_iam_policy_document" "write" {
+  count = var.output_policies ? 1 : 0
   statement {
     effect    = "Allow"
     resources = [aws_dynamodb_table.this.arn]
@@ -40,6 +43,7 @@ data "aws_iam_policy_document" "write" {
 }
 
 data "aws_iam_policy_document" "delete" {
+  count = var.output_policies ? 1 : 0
   statement {
     effect    = "Allow"
     resources = [aws_dynamodb_table.this.arn]
